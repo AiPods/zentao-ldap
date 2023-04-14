@@ -3,23 +3,29 @@ name: ldap
 code: ldap
 type: extension
 copyright: >
-  luzi 2022
+  Fork from https://github.com/luzi2000/zentao-ldap.git
 ldap: 
-author: 'luzi<lu_zi@msn.com>'
-abstract: ldap
+author: 'AiHD<aihd-cqu@foxmail.com>'
+abstract: >
+  支持从LDAP服务器上同步用户信息（账号、真实姓名、邮箱），以及使用LDAP验证登录。
 desc: >
-  ldap
+  1.插件安装后，在后台页面会多出一个"LDAP"子页面，可在该页面配置LDAP服务器信息
+  2.在LDAP配置页面可以测试是否能够正常连接LDAP服务器
+  3.保存配置后，点击“手动同步”按钮，从LDAP服务器上同步用户信息
+  4.同步用户信息以后，可以使用LDAP用户登录禅道
+  5.本地用户，通过在账户名称前加“$”符号来登录禅道
+  6.ssl加密服务器名需要加ldaps：//
+  7.ldap属性名必须是全小写，例如displayName改为displayname
 install: |
 license: AGPLv3
 releases:
-  1.0:
-    zentaoversion: 17.6.2
+  1.5.0:
+    zentaoversion: 18.3
     charge: business
     license: AGPLv3
-    changelog: first blood
-    date: 2022
-    zentaoversion: 17.5
-    charge: business
-    license: AGPLv3
-    changelog: first blood
-    date: 2022
+    changelog: >
+      1.适配测试开源版-18.3
+      2.增加自定义端口
+      3.默认关闭密钥校验
+      4.默认导入为外部用户
+    date: 2023

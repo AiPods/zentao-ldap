@@ -22,7 +22,7 @@ class ldap extends control
 
     public function setting()
     {
-        $this->view->title      = $this->lang->ldap->common . $this->lang->colon . $this->lang->ldap->setting;
+        $this->view->title = $this->lang->ldap->common . $this->lang->colon . $this->lang->ldap->setting;
         $this->view->position[] = html::a(inlink('index'), $this->lang->ldap->common);
         $this->view->position[] = $this->lang->ldap->setting;
 
@@ -33,10 +33,10 @@ class ldap extends control
     {
         if (!empty($_POST)) {
             $this->config->ldap->host = $this->post->ldapHost;
-            $this->config->ldap->version = $this->post->ldapVersion;
+            $this->config->ldap->port = $this->post->ldapPort;
             $this->config->ldap->bindDN = $this->post->ldapBindDN;
             $this->config->ldap->bindPWD = $this->post->ldapPassword;
-            $this->config->ldap->baseDN =  $this->post->ldapBaseDN;
+            $this->config->ldap->baseDN = $this->post->ldapBaseDN;
             $this->config->ldap->searchFilter = $this->post->ldapFilter;
             $this->config->ldap->uid = $this->post->ldapAttr;
             $this->config->ldap->mail = $this->post->ldapMail;
@@ -44,16 +44,16 @@ class ldap extends control
 
             // 此处我们把配置写入配置文件
             $ldapConfig = "<?php \n"
-                          ."\$config->ldap = new stdclass();\n"
-                          ."\$config->ldap->host = '{$this->post->ldapHost}';\n"
-                          ."\$config->ldap->version = '{$this->post->ldapVersion}';\n"
-                          ."\$config->ldap->bindDN = '{$this->post->ldapBindDN}';\n"
-                          ."\$config->ldap->bindPWD = '{$this->post->ldapPassword}';\n"
-                          ."\$config->ldap->baseDN = '{$this->post->ldapBaseDN}';\n"
-                          ."\$config->ldap->searchFilter = '{$this->post->ldapFilter}';\n"
-                          ."\$config->ldap->uid = '{$this->post->ldapAttr}';\n"
-                          ."\$config->ldap->mail = '{$this->post->ldapMail}';\n"
-                          ."\$config->ldap->name = '{$this->post->ldapName}';\n";
+                . "\$config->ldap = new stdclass();\n"
+                . "\$config->ldap->host = '{$this->post->ldapHost}';\n"
+                . "\$config->ldap->port = '{$this->post->ldapPort}';\n"
+                . "\$config->ldap->bindDN = '{$this->post->ldapBindDN}';\n"
+                . "\$config->ldap->bindPWD = '{$this->post->ldapPassword}';\n"
+                . "\$config->ldap->baseDN = '{$this->post->ldapBaseDN}';\n"
+                . "\$config->ldap->searchFilter = '{$this->post->ldapFilter}';\n"
+                . "\$config->ldap->uid = '{$this->post->ldapAttr}';\n"
+                . "\$config->ldap->mail = '{$this->post->ldapMail}';\n"
+                . "\$config->ldap->name = '{$this->post->ldapName}';\n";
 
             $file = fopen("config.php", "w") or die("Unable to open file!");
             fwrite($file, $ldapConfig);
@@ -66,7 +66,7 @@ class ldap extends control
 
     public function test()
     {
-        echo $this->ldap->identify($this->post->host, $this->post->dn, $this->post->pwd);
+        echo $this->ldap->identify($this->post->host, $this->post->port, $this->post->dn, $this->post->pwd);
     }
 
     public function sync()
@@ -78,8 +78,8 @@ class ldap extends control
     public function identify($user, $pwd)
     {
         $ret = false;
-        $account = $this->config->ldap->uid.'='.$user.','.$this->config->ldap->baseDN;
-        if (0 == strcmp('Success', $this->ldap->identify($this->config->ldap->host, $account, $pwd))) {
+        $account = $this->config->ldap->uid . '=' . $user . ',' . $this->config->ldap->baseDN;
+        if (0 == strcmp('Success', $this->ldap->identify($this->config->ldap->host, $this->config->ldap->port, $account, $pwd))) {
             $ret = true;
         }
 

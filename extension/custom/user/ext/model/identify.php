@@ -12,7 +12,7 @@ public function identify($account, $password)
         if ($record) {
         	$ldap = $this->loadModel('ldap');
 		$ldap_account = $ldap->getUserDn($this->config->ldap, $account);
-        	$pass = $ldap->identify($this->config->ldap->host, $ldap_account, $password);
+        	$pass = $ldap->identify($this->config->ldap->host, $this->config->ldap->port, $ldap_account, $password);
         	if (0 == strcmp('Success', $pass)) {
         		$user = $record;
         		$ip   = $this->server->remote_addr;
