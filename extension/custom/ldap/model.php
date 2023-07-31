@@ -70,14 +70,14 @@ class ldapModel extends model
             $user->account = $ldapUsers[$i][$config->uid][0];
             $user->email = $ldapUsers[$i][$config->mail][0];
             $user->realname = $ldapUsers[$i][$config->name][0];
-            $user->type = "outside";
-            $user->gender = "m";
 
             $account = $this->dao->select('*')->from(TABLE_USER)->where('account')->eq($user->account)->fetch('account');
             if ($account == $user->account) {
                 $this->dao->update(TABLE_USER)->set('visits = visits + 1')->where('account')->eq($user->account)->exec();
                 $this->dao->update(TABLE_USER)->data($user)->where('account')->eq($user->account)->autoCheck()->exec();
             } else {
+                $user->type = "outside";
+                $user->gender = "m";
                 $this->dao->insert(TABLE_USER)->data($user)->autoCheck()->exec();
             }
 
